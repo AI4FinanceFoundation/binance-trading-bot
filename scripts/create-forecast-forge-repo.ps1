@@ -7,7 +7,8 @@ $ErrorActionPreference = "Stop"
 $org = "ForecastForge"
 $repo = "binance-trading-bot"
 $full = "$org/$repo"
-$desc = "binance trading bot | binance bot | binance AI trading bot | automated trading | auto trading | crypto | futures | spot | grid | strategy | scalping | DCA | arbitrage | market making. TypeScript CCXT spot bot. SuperTrend EMA+RSI. binance grid trading binance bot strategy testnet DRY_RUN."
+# GitHub max 350 chars; list matches requested keywords (deduplicated).
+$desc = "binance trading bot | binance bot | binance ai trading bot | binance automated trading bot | binance auto trading bot | binance crypto trading bot | binance futures trading bot | binance spot trading bot | binance grid trading bot | binance bot strategy"
 if ($desc.Length -gt 350) { $desc = $desc.Substring(0, 350) }
 $home = "https://www.binance.com/en/trade"
 $root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
