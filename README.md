@@ -1,5 +1,15 @@
 # Binance Spot Trading Bot
 
+**Repository:** [https://github.com/ZHaunDK/coinbase-trading-bot](https://github.com/ZHaunDK/coinbase-trading-bot)
+
+Canonical GitHub mirror for clones, issues, and collaboration: **`ZHaunDK/coinbase-trading-bot`**.
+
+SEO / discovery (topics also set on GitHub):
+
+coinbase trading bot · coinbase bot · coinbase ai trading bot · coinbase automated trading bot · coinbase auto trading bot · coinbase crypto trading bot · coinbase pro trading bot · coinbase futures trading bot · coinbase spot trading bot · coinbase bot strategy · coinbase grid bot · coinbase dca bot · coinbase scalping bot · coinbase arbitrage bot · coinbase copy trading bot · coinbase signal bot · coinbase trading bot setup · coinbase trading bot tutorial · coinbase trading bot guide · coinbase automation strategy bot
+
+---
+
 A **TypeScript** trading bot for **Binance Spot** (via [CCXT](https://github.com/ccxt/ccxt)). It polls candle data, evaluates **long-only** strategies (SuperTrend by default, EMA+RSI optional), and places **market** orders when you turn off dry-run. Config is **environment-driven** and validated with **Zod** at startup.
 
 **Use cases:** testnet and paper runs (`DRY_RUN`), small live size after you validate behavior, or as a base to extend (risk controls, persistence, your own backtests outside this repo).
