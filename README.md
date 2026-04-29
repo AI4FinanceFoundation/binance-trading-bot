@@ -1,18 +1,14 @@
 # Binance Spot Trading Bot
 
-**Repository:** [https://github.com/ZHaunDK/coinbase-trading-bot](https://github.com/ZHaunDK/coinbase-trading-bot)
+**Package:** `binance-trading-bot` · **Node.js** ≥ 20 · **npm** · **TypeScript (ESM)**
 
-Canonical GitHub mirror for clones, issues, and collaboration: **`ZHaunDK/coinbase-trading-bot`**.
+**Repository (clone / issues / PRs):** [github.com/AI4FinanceFoundation/binance-trading-bot](https://github.com/AI4FinanceFoundation/binance-trading-bot)
 
-SEO / discovery (topics also set on GitHub):
+A **TypeScript** trading bot for **Binance Spot** (via [CCXT](https://github.com/ccxt/ccxt)). It polls candle data, evaluates **long-only** strategies (SuperTrend by default, EMA+RSI optional), and places **market** orders when you turn off dry-run. Config is **environment-driven** and validated with **Zod** at startup—invalid env (e.g. `EMA_FAST >= EMA_SLOW` for the EMA strategy) causes a **fast exit** with a clear error.
 
-coinbase trading bot · coinbase bot · coinbase ai trading bot · coinbase automated trading bot · coinbase auto trading bot · coinbase crypto trading bot · coinbase pro trading bot · coinbase futures trading bot · coinbase spot trading bot · coinbase bot strategy · coinbase grid bot · coinbase dca bot · coinbase scalping bot · coinbase arbitrage bot · coinbase copy trading bot · coinbase signal bot · coinbase trading bot setup · coinbase trading bot tutorial · coinbase trading bot guide · coinbase automation strategy bot
+**Use cases:** Binance [Spot Testnet](https://testnet.binance.vision/) or `DRY_RUN` to learn the loop, small live size only after you trust logs and symbol settings, or as a **forkable base** to add your own risk layer, database, or execution types.
 
----
-
-A **TypeScript** trading bot for **Binance Spot** (via [CCXT](https://github.com/ccxt/ccxt)). It polls candle data, evaluates **long-only** strategies (SuperTrend by default, EMA+RSI optional), and places **market** orders when you turn off dry-run. Config is **environment-driven** and validated with **Zod** at startup.
-
-**Use cases:** testnet and paper runs (`DRY_RUN`), small live size after you validate behavior, or as a base to extend (risk controls, persistence, your own backtests outside this repo).
+**Related idea, different venue:** [Coinbase bot](https://github.com/AI4FinanceFoundation/coinbase-trading-bot), [Bybit bot](https://github.com/AI4FinanceFoundation/bybit-trading-bot), [AI trading agent](https://github.com/AI4FinanceFoundation/ai-trading-agent)—each README describes its own market and stack.
 
 ---
 
@@ -22,16 +18,18 @@ A **TypeScript** trading bot for **Binance Spot** (via [CCXT](https://github.com
 2. [What this bot does](#what-this-bot-does)  
 3. [Architecture](#architecture)  
 4. [Stack](#stack)  
-5. [Strategies](#strategies)  
-6. [Execution: orders, balance, bars](#execution-orders-balance-bars)  
-7. [Configuration](#configuration)  
-8. [Keys and security](#keys-and-security)  
-9. [Install and run](#install-and-run)  
-10. [Operations and logs](#operations-and-logs)  
-11. [Limitations](#limitations)  
-12. [Performance and trade history](#performance-and-trade-history)  
-13. [Project layout](#project-layout)  
-14. [License](#license)  
+5. [npm scripts](#npm-scripts)  
+6. [Strategies](#strategies)  
+7. [Execution: orders, balance, bars](#execution-orders-balance-bars)  
+8. [Configuration](#configuration)  
+9. [Keys and security](#keys-and-security)  
+10. [Install and run](#install-and-run)  
+11. [Operations and logs](#operations-and-logs)  
+12. [Troubleshooting](#troubleshooting)  
+13. [Limitations](#limitations)  
+14. [Performance and trade history](#performance-and-trade-history)  
+15. [Project layout](#project-layout)  
+16. [License](#license)  
 
 ---
 
@@ -98,6 +96,17 @@ flowchart LR
 | **Zod** | Env parsing |
 | **dotenv** | `.env` in dev |
 | **tsx** | `npm run dev` |
+
+---
+
+## npm scripts
+
+| Command | What it runs |
+|---------|----------------|
+| `npm run dev` | `node --import tsx src/index.ts` — TypeScript directly, no `dist/` build. |
+| `npm run build` | `tsc` → emits JavaScript under `dist/`. |
+| `npm start` | `node dist/index.js` — **requires** `build` first. |
+| `npm run typecheck` | `tsc --noEmit` — CI-friendly compile check. |
 
 ---
 
@@ -206,6 +215,18 @@ npm run typecheck
 - **Monitoring:** ship logs to your stack; alert on repeated `tick error` or process death.  
 - **Network:** transient failures show as errors; the bot does not implement custom reconnection beyond CCXT.  
 - **What counts as “real” paper:** `DRY_RUN=true` (engine runs, **no** orders) or testnet with small size — **that** is your **operational** record. Anything you export from the exchange (or testnet) is your **authoritative** trade history.  
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | What to try |
+|--------|----------------|-------------|
+| Process exits immediately on start | Zod validation failed | Read stderr (often `EMA_FAST` / `EMA_SLOW` or missing fields); compare `.env` to `.env.example`. |
+| Orders fail with auth errors | Wrong key/secret or testnet mismatch | Match `BINANCE_TESTNET` to keys from [testnet.binance.vision](https://testnet.binance.vision/) vs production keys. |
+| Repeated tick errors | Network, rate limits, or symbol not loaded | Check connectivity; confirm `SYMBOL` exists after `loadMarkets` (see logs); CCXT handles basic rate limiting (`enableRateLimit: true`). |
+| Signal fires but no order | `DRY_RUN` still truthy | Set `DRY_RUN=false` only when you intend real/testnet orders. |
+| “Already acted” every tick | `lastActedOnBarOpen` dedupe | Expected until a **new** closed bar produces a new signal; not a bug. |
 
 ---
 
