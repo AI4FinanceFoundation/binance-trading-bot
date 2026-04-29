@@ -1,14 +1,11 @@
 # Binance Spot Trading Bot
 
-**Package:** `binance-trading-bot` · **Node.js** ≥ 20 · **npm** · **TypeScript (ESM)**
+**Keywords:** binance binance-spot binance-api binance-bot npm package binance-trading-bot ccxt trading-bot supertrend ema rsi zod typescript nodejs node-20 esm modules market-order dry-run testnet spot-trading crypto btc eth usdt algo-trading automated-trading automated-crypto quantitative paper-trading open-source long-only binance-testnet scalp swing grid-bot dca day-trading market-making signal-bot volatility ohlcv candlestick rest-api rate-limit spot-only no-futures stablecoin quote-invest
 
 **Repository (clone / issues / PRs):** [github.com/AI4FinanceFoundation/binance-trading-bot](https://github.com/AI4FinanceFoundation/binance-trading-bot)
 
-A **TypeScript** trading bot for **Binance Spot** (via [CCXT](https://github.com/ccxt/ccxt)). It polls candle data, evaluates **long-only** strategies (SuperTrend by default, EMA+RSI optional), and places **market** orders when you turn off dry-run. Config is **environment-driven** and validated with **Zod** at startup—invalid env (e.g. `EMA_FAST >= EMA_SLOW` for the EMA strategy) causes a **fast exit** with a clear error.
 
-**Use cases:** Binance [Spot Testnet](https://testnet.binance.vision/) or `DRY_RUN` to learn the loop, small live size only after you trust logs and symbol settings, or as a **forkable base** to add your own risk layer, database, or execution types.
-
-**Related idea, different venue:** [Coinbase bot](https://github.com/AI4FinanceFoundation/coinbase-trading-bot), [Bybit bot](https://github.com/AI4FinanceFoundation/bybit-trading-bot), [AI trading agent](https://github.com/AI4FinanceFoundation/ai-trading-agent)—each README describes its own market and stack.
+**Related:** [coinbase-trading-bot](https://github.com/AI4FinanceFoundation/coinbase-trading-bot) · [bybit-trading-bot](https://github.com/AI4FinanceFoundation/bybit-trading-bot) · [ai-trading-agent](https://github.com/AI4FinanceFoundation/ai-trading-agent)
 
 ---
 
